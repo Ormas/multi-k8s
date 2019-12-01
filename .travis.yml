@@ -4,20 +4,20 @@ services:
   - docker
 
 before_install:
-  - docker build -t ormas/multi-docker -f ./client/Dockerfile.dev ./client
+  - docker build -t wisum/multi-docker -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true ormas/multi-docker npm test
+  - docker run -e CI=true wisum/multi-docker npm test
 
 after:success:
-  - docker build -t ormas/multi-client ./client
-  - docker build -t ormas/multi-nginx ./nginx
-  - docker build -t ormas/multi-server ./server
-  - docker build -t ormas/multi-worker ./worker
+  - docker build -t wisum/multi-client ./client
+  - docker build -t wisum/multi-nginx ./nginx
+  - docker build -t wisum/multi-server ./server
+  - docker build -t wisum/multi-worker ./worker
   #Login to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   #Take those images and push them to docker hub
-  - docker push ormas/multi-client
-  - docker push ormas/multi-nginx
-  - docker push ormas/multi-server
-  - docker push ormas/multi-worker
+  - docker push wisum/multi-client
+  - docker push wisum/multi-nginx
+  - docker push wisum/multi-server
+  - docker push wisum/multi-worker
