@@ -4,10 +4,10 @@ services:
   - docker
 
 before_install:
-  - docker build -t ormas/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t ormas/docker-react -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true ormas/react-test npm test
+  - docker run -e CI=true ormas/docker-react npm test
 
 after:success:
   - docker build -t ormas/multi-client ./client
