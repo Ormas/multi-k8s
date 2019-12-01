@@ -1,0 +1,23 @@
+language: generic 
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t ormas/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true ormas/react-test npm test
+
+after:success:
+  - docker build -t ormas/multi-client ./client
+  - docker build -t ormas/multi-nginx ./nginx
+  - docker build -t ormas/multi-server ./server
+  - docker build -t ormas/multi-worker ./worker
+  #Login to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  #Take those images and push them to docker hub
+  - docker push ormas/multi-client
+  - docker push ormas/multi-nginx
+  - docker push ormas/multi-server
+  - docker push ormas/multi-worker
