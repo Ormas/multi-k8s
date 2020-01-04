@@ -16,10 +16,10 @@ before_install:
     - gcloud config set compute/zone europe-north1-a
     - gcloud container clusters get-credentials multi-cluster
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker build -t ormas/react-test -f ./client/Dockerfile.dev ./client
+    - docker build -t ormas/docker-react -f ./client/Dockerfile.dev ./client
 
 script:
-    - docker run -e CI=true ormas/react-test npm run test 
+    - docker run -e CI=true ormas/docker-react npm run test 
 
 deploy:
     provider: script
